@@ -5,10 +5,16 @@ export const CartItem = (props) => {
   return (
     <div className='cartItem'>
       <div className='cartItemContent'>
-        <strong>{props.number}. {props.cartItem.cartItemTitle}</strong>
-        <div>
+        <p className='title'>ID товара:</p>
+        <p className='text'>{props.cartItem.cartItemId}</p>
+        <p className='title'>Название товара:</p>
+        <p className='text'>
+          {props.cartItem.cartItemTitle}
+        </p>
+        <p className='title'>Цена товара:</p>
+        <p className='text'>
           {props.cartItem.cartItemPrice}
-        </div>
+        </p>
       </div>
       <CartButton onClick={() => props.remove(props.cartItem)}>
         Удалить
