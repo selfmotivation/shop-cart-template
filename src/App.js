@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './styles/App.css';
 import { AddToCartForm } from './components/AddToCartForm.jsx';
 import { CartList } from './components/CartList.jsx';
+import { Summary } from "./components/Summary";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -14,12 +15,11 @@ function App() {
     setCartItems(cartItems.filter(c => c.cartItemId !== cartItem.cartItemId));
   }
 
-  const summaryPrice = (cartItems) => {
+  const totalPrice = (cartItems) => {
     let sum = 0;
 
     cartItems.map(item => {
-      sum += item.cartItemPrice;
-      console.log(item.cartItemPrice);
+      sum += +item.cartItemPrice;
     })
 
     return sum;
@@ -28,12 +28,7 @@ function App() {
   return (
     <div className="App">
       <AddToCartForm create={createCartItem}/>
-      <div className="summary">
-        <p>Количество добавленных товаров:</p>
-        <p>{cartItems.length}</p>
-        <p>Общая цена:</p>
-        <p>{summaryPrice}</p>
-      </div>
+      <Summary cartItems={cartItems} total={totalPrice} />
       <div className="cartList">
         {cartItems.length
           ?
