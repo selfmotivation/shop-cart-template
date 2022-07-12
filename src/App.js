@@ -45,7 +45,7 @@ function App() {
   const calcDiscountPrice = (cartItems, discountForPrice) => {
     let price;
     
-    if (discountForPrice) {
+    if (discountForPrice && cartItems.length !== 0) {
       let total = calcTotalPrice(cartItems);
       price = Math.round((total - total * (discountForPrice / 100)) * 1000) / 1000;
     }
