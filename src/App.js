@@ -17,32 +17,88 @@ function App() {
     setCartItems(cartItems.filter(c => c.cartItemId !== cartItem.cartItemId));
   }
 
-  const [discount, setDiscount] = useState('');
+  const calcTotalPrice = (cartItems) => {
+    let sum = 0;
 
-  const updateDiscount = (sum) => {
-    if (discount) {
-      console.log(discount);
+    cartItems.map(item => {
+      sum += +item.cartItemPrice;
+    });
+
+    return sum;
+  }
+
+  const checkDiscount = (e) => {
+    if (e.target.value < 0) {
+      e.target.value = 0;
     }
+
+    if (e.target.value > 100) {
+      e.target.value = 100;
+    }
+    
+    setDiscount(+e.target.value);
+  }
+
+  const [discount, setDiscount] = useState('');
+  const [discountForPrice, setDiscountForPrice] = useState('');
+
+  const calcDiscountPrice = (cartItems, discountForPrice) => {
+    let price;
+    
+    if (discountForPrice) {
+      let total = calcTotalPrice(cartItems);
+      price = Math.round((total - total * (discountForPrice / 100)) * 1000) / 1000;
+    }
+
+    return price;
   }
 
   return (
     <div className="App">
       <AddToCartForm create={createCartItem} />
-      <Summary cartItems={cartItems} />
+      <Summary
+        cartItems={cartItems}
+        totalPrice={calcTotalPrice(cartItems)}
+        calcDiscountPrice={calcDiscountPrice}
+        discountForPrice={discountForPrice}
+      />
       <div className="discount">
         <CartInput
           value={discount}
-          onChange={e => setDiscount(e.target.value)}
+          onChange={e => checkDiscount(e)}
           type="number"
           placeholder="Скидка"
-          style={{width: '70px', fontSize: '12px', marginRight: '10px'}}
+          min="0"
+          max="100"
+          style={{width: '90px', fontSize: '12px', marginRight: '10px'}}
         />
-        <CartButton onClick={updateDiscount} >Установить скидку</CartButton>
+        <CartButton
+          onClick={() => {
+            setDiscountForPrice(discount);
+          }}
+        >
+          Установить скидку
+        </CartButton>
+        <CartButton
+          onClick={() => {
+            setDiscountForPrice('');
+            setDiscount('');
+            }
+          }
+        >
+          Сбросить скидку
+        </CartButton>
       </div>
       <div className="cartList">
         {cartItems.length
           ?
-          <CartList remove={removeCartItem} cartItems={cartItems} title={"Список товаров"}/>
+          <CartList
+            remove={removeCartItem}
+            cartItems={cartItems}
+            title={"Список товаров"}
+            calcDiscountPrice={calcDiscountPrice}
+            discountForPrice={discountForPrice}
+          />
           :
           <h2 className="cartList__title">Список товаров пуст</h2>
         }

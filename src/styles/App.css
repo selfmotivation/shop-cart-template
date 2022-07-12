@@ -38,9 +38,23 @@
   font-size: 16px;
 }
 
+.summary__discount-price,
+.cartItemText__discount {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(0, 139, 81);
+}
+
 .discount {
   position: sticky;
   top: 280px;
+
+  display: flex;
+  flex-wrap: wrap;
+  width: 33%;
+  justify-content: flex-end;
 }
 
 .discount__input {
@@ -73,16 +87,25 @@
   border: 2px solid rgb(20, 43, 146);
 }
 
-.cartItem .title {
+.cartItemTitle {
   font-size: 16px;
   font-weight: bold;
 }
 
-.cartItem .text {
+.cartItemText {
   font-size: 14px;
   margin-left: 15px;
 }
 
+.cartItemText__discount {
+  font-size: 16px;
+}
+
 .cartItemContent {
   word-break: break-word;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: #cf1d1d;
 }

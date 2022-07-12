@@ -5,15 +5,20 @@ export const CartItem = (props) => {
   return (
     <div className='cartItem'>
       <div className='cartItemContent'>
-        <p className='title'>ID товара:</p>
-        <p className='text'>{props.cartItem.cartItemId}</p>
-        <p className='title'>Название товара:</p>
-        <p className='text'>
+        <p className='cartItemTitle'>ID товара:</p>
+        <p className='cartItemText'>{props.cartItem.cartItemId}</p>
+        <p className='cartItemTitle'>Название товара:</p>
+        <p className='cartItemText'>
           {props.cartItem.cartItemTitle}
         </p>
-        <p className='title'>Цена товара:</p>
-        <p className='text'>
+        <p className='cartItemTitle'>Цена товара:</p>
+        <p>
+          <span className={['cartItemText', props.discountForPrice ? 'strikethrough' : ''].join(' ')}>
           {props.cartItem.cartItemPrice}
+          </span>
+          <span className='cartItemText__discount'>
+          {props.calcDiscountPrice([props.cartItem], props.discountForPrice)}
+          </span>
         </p>
       </div>
       <CartButton onClick={() => props.remove(props.cartItem)}>
