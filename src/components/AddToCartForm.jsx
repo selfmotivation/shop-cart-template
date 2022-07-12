@@ -16,6 +16,7 @@ export const AddToCartForm = ({create}) => {
       console.log(newCartItem);
 
       create(newCartItem);
+      
 
       setCartItem({cartItemId: '', cartItemTitle: '', cartItemPrice: ''})
     } else {

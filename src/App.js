@@ -3,6 +3,8 @@ import './styles/App.css';
 import { AddToCartForm } from './components/AddToCartForm.jsx';
 import { CartList } from './components/CartList.jsx';
 import { Summary } from "./components/Summary";
+import { CartButton } from "./components/UI/CartButton/CartButton";
+import { CartInput } from "./components/UI/CartInput/CartInput";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -15,20 +17,28 @@ function App() {
     setCartItems(cartItems.filter(c => c.cartItemId !== cartItem.cartItemId));
   }
 
-  const totalPrice = (cartItems) => {
-    let sum = 0;
+  const [discount, setDiscount] = useState('');
 
-    cartItems.map(item => {
-      sum += +item.cartItemPrice;
-    })
-
-    return sum;
+  const updateDiscount = (sum) => {
+    if (discount) {
+      console.log(discount);
+    }
   }
 
   return (
     <div className="App">
-      <AddToCartForm create={createCartItem}/>
-      <Summary cartItems={cartItems} total={totalPrice} />
+      <AddToCartForm create={createCartItem} />
+      <Summary cartItems={cartItems} />
+      <div className="discount">
+        <CartInput
+          value={discount}
+          onChange={e => setDiscount(e.target.value)}
+          type="number"
+          placeholder="Скидка"
+          style={{width: '70px', fontSize: '12px', marginRight: '10px'}}
+        />
+        <CartButton onClick={updateDiscount} >Установить скидку</CartButton>
+      </div>
       <div className="cartList">
         {cartItems.length
           ?
